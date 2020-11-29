@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse">
+      <a-assets>
+        <audio id="dragons" src="ImagineDragons.mp3" preload="auto"></audio>
+        <!--360 Video-->
+        <video id="musicvideo" src="dragons.mp4" autoplay loop="true"> </video>
+      </a-assets>
+      
+      <a-videosphere src="#musicvideo" sound="src: #dragons; autoplay: true"></a-videosphere>
+      <a-sphere link="href: Index.html;" class="clickable" id="light" radius="0.8" material="color: #641b63;shader: flat " position="0 3 -5"></a-sphere>
+
+    </a-scene>
+  </body>
+</html>
