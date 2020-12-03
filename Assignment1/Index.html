@@ -1,32 +1,73 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse">
+    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse" physics="debug: true; gravity: 0;">
       <a-assets>
-        <audio id="dragons" src="ImagineDragons.mp3" preload="auto"></audio>
+        <!--Babyyoda Image-->
+        <img id="yoda" src="babyyoda.jpg">
+         <!--Obi1 Image-->
+         <img id="Obi1" src="Obi1.jpg">
+        <!--Space room portal sound-->
+        <audio id="starwars" src="StarWars.mp3" preload="auto"></audio>
         <!--SphereImage-->
         <img id="SpaceImage" src="space.jpg">
         <!--Center Lobby Object-->
-        <a-asset-item id="MainLoby-obj" src="MainLoby.obj"></a-asset-item>
-        <a-asset-item id="MainLoby-mtl" src="MainLoby.mtl"></a-asset-item>
+        <a-asset-item id="LobbyBuilding-obj" src="LobbyBuilding.obj"></a-asset-item>
+        <a-asset-item id="LobbyBuilding-mtl" src="LobbyBuilding.mtl"></a-asset-item>
+        <a-asset-item id="Pillar-obj" src="Pillar.obj"></a-asset-item>
+        <a-asset-item id="Pillar-mtl" src="Pillar.mtl"></a-asset-item>
+        <a-asset-item id="Altar-obj" src="Altar.obj"></a-asset-item>
+        <a-asset-item id="Altar-mtl" src="Altar.mtl"></a-asset-item>
       </a-assets>
+
       <!-- Camera Settings -->
-      <a-entity camera look-controls wasd-controls="acceleration:200" position = "0 2 0" ></a-entity>
+      <a-entity id="camera"
+        camera 
+        kinematic-body
+        position="20 2 -10"
+        rotation="0 0 0"
+        look-controls wasd-controls="acceleration:200">
+      </a-entity>
+        <a-boxstatic-body position="0 2 -1"></a-boxstatic-body>
+      </a-entity>
+      <!-- Baby Yoda picture -->
+      <a-plane src="#yoda" height="4" width="4" rotation="0 -90 0" position="4.2 2 -60"></a-plane>
+      <!-- Obi1 picture -->
+      <a-plane src="#Obi1" height="4" width="6" rotation="0 90 0" position="-4 2 -60"></a-plane>
       <!-- Sphere to 360Video -->
-      <a-sphere link="href: VideoRoom.html;" class="clickable" id="light" radius="0.8" material="color: #dbd6c7;shader: flat " light="color: #dbd6c7; distance: 120; intensity: 2; type: point" position="0 1.8 -15" sound="src: #dragons; autoplay: true rolloffFactor: 20; refDistance: 0.3 " change-color-on-hover></a-sphere>
+      <a-sphere link="href: VideoRoom.html;" class="clickable" id="light" radius="0.8" material="color: #dbd6c7;shader: flat " light="color: #dbd6c7; distance: 120; intensity: 2; type: point" position="0 1.8 -15" change-color-on-hover></a-sphere>
       <!-- Portal to Space Room -->
-      <a-link href="Space.html" class="clickable" title="Off to Space" image="#SpaceImage" rotation = "0 90 0" position="-40 2 -15"></a-link>  
-      <!-- Building model -->
-      <a-obj-model src="#MainLoby-obj" mtl="#MainLoby-mtl" position="0 -10 -15" rotation="0 -90 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
-
-
-      <!-- Using the asset management system. 
-      <a-videosphere src="#spacevideo"></a-videosphere>-->
-
+      <a-link href="Space.html" class="clickable" title="Off to Space" image="#SpaceImage" rotation = "0 0 0" position="0 2 -70" sound="src: #starwars; autoplay: true; rolloffFactor: 1; refDistance: 0.3 "></a-link>  
+      <!-- Lobby models -->
+      <a-obj-model src="#LobbyBuilding-obj" mtl="#LobbyBuilding-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model src="#Altar-obj" mtl="#Altar-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model static-body src="#Pillar-obj" mtl="#Pillar-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model static-body src="#Pillar-obj" mtl="#Pillar-mtl" position="0 -10 17.8" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model static-body src="#Pillar-obj" mtl="#Pillar-mtl" position="32.8 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model static-body src="#Pillar-obj" mtl="#Pillar-mtl" position="32.8 -10 17.8" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <!-- Lights -->
+      <a-light type="ambient" color="#222"></a-light>
+     
+            <!-- Bounding Boxes -->
+    <a-plane static-body height="10" width="50" rotation="0 -90 0" position="-25 2 -15"></a-plane>
+    <a-plane static-body height="10" width="50" rotation="0 90 0" position="25 2 -15"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 180 0" position="-15 2 -41"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 180 0" position="15 2 -41"></a-plane>
+    <a-plane static-body height="10" width="37" rotation="0 -90 0" position="-5 2 -60"></a-plane>
+    <a-plane static-body height="10" width="37" rotation="0 90 0" position="5 2 -60"></a-plane>
+    <a-plane static-body height="10" width="37" rotation="0 -90 0" position="-5 2 30"></a-plane>
+    <a-plane static-body height="10" width="37" rotation="0 90 0" position="5 2 30"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 0 0" position="-15 2 11"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 0 0" position="15 2 11"></a-plane>  
     </a-scene>
   </body>
+
+
+
   <script>
     AFRAME.registerComponent('change-color-on-hover', {
       schema: {
