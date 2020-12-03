@@ -5,12 +5,15 @@
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse" physics="debug: false; gravity: 0;">
+    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse" physics="debug: true; gravity: 0;">
       <a-assets>
-        <!--Babyyoda Image-->
+        <!--Space Images-->
         <img id="yoda" src="babyyoda.jpg">
-         <!--Obi1 Image-->
-         <img id="Obi1" src="Obi1.jpg">
+        <img id="Obi1" src="Obi1.jpg">
+         <!--Balcony Images-->
+        <img id="flower1" src="flower1.jpg">
+        <img id="flower2" src="flower2.jpg">
+        <img id="balcony" src="balcony.jpg">
         <!--Space room portal sound-->
         <audio id="starwars" src="StarWars.mp3" preload="auto"></audio>
         <!--SphereImage-->
@@ -34,13 +37,21 @@
       </a-entity>
         <a-boxstatic-body position="0 2 -1"></a-boxstatic-body>
       </a-entity>
-      <!-- Baby Yoda picture -->
+      <!-- Pictures on Walls -->
       <a-plane src="#yoda" height="4" width="4" rotation="0 -90 0" position="4.2 2 -60"></a-plane>
-      <!-- Obi1 picture -->
       <a-plane src="#Obi1" height="4" width="6" rotation="0 90 0" position="-4 2 -60"></a-plane>
-      <!-- Sphere to 360Video -->
-      <a-sphere link="href: VideoRoom.html;" class="clickable" id="light" radius="0.8" material="color: #dbd6c7;shader: flat " light="color: #dbd6c7; distance: 120; intensity: 2; type: point" position="0 1.8 -15" change-color-on-hover></a-sphere>
-      <!-- Portal to Space Room -->
+      <a-plane src="#flower1" height="4" width="4" rotation="0 180 0" position="-30 2 -11"></a-plane>
+      <a-plane src="#flower2" height="4" width="6" rotation="0 180 0" position="-40 2 -11.2"></a-plane>
+      <a-plane src="#balcony" height="6" width="6" rotation="0 0 0" position="-35 2 -18.7"></a-plane>
+
+      <!-- Sphere to 360Video-->
+      <a-sphere  class="clickable" id="light" radius="0.8" material="color: #dbd6c7;shader: flat; side: double" light="color: #dbd6c7; distance: 120; intensity: 2; type: point" position="0 1.8 -15" 
+        change-color-on-hover  
+        animation__MouseClicklight="property: light.color; type: color; to:rgb(107, 12, 111); startEvents: click; dur: 1"
+        animation__MouseClickcolor="property: components.material.material.color; type: color; to: purple; startEvents: click; dur: 1"
+        animation__MouseClickscale="property: scale; type: color; from: 1 1 1; to: 10 10 10; startEvents: click; dur: 2000">
+      </a-sphere>
+      <!-- Portals-->
       <a-link href="Space.html" class="clickable" title="Off to Space" image="#SpaceImage" rotation = "0 0 0" position="0 2 -70" sound="src: #starwars; autoplay: true; rolloffFactor: 1; refDistance: 0.3 "></a-link>  
       <!-- Lobby models -->
       <a-obj-model src="#LobbyBuilding-obj" mtl="#LobbyBuilding-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
@@ -53,7 +64,10 @@
       <a-light type="ambient" color="#222"></a-light>
      
             <!-- Bounding Boxes -->
-    <a-plane static-body height="10" width="50" rotation="0 -90 0" position="-25 2 -15"></a-plane>
+    <a-plane static-body height="10" width="30" rotation="0 0 0" position="-42 2 -10"></a-plane>
+    <a-plane static-body height="10" width="30" rotation="0 180 0" position="-42 2 -20"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 -90 0" position="-27 2 0"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 -90 0" position="-27 2 -30"></a-plane>
     <a-plane static-body height="10" width="50" rotation="0 90 0" position="25 2 -15"></a-plane>
     <a-plane static-body height="10" width="20" rotation="0 180 0" position="-15 2 -41"></a-plane>
     <a-plane static-body height="10" width="20" rotation="0 180 0" position="15 2 -41"></a-plane>
@@ -78,18 +92,58 @@
         var el = this.el;  // <a-box>
         var defaultColor = el.getAttribute('material').color;
         var defaultLightColor = el.getAttribute('light').color;
-        
+        var HasAnimationStarted = false;
   
         el.addEventListener('mouseenter', function () {
-          el.setAttribute('color', "purple");
-          el.setAttribute('light', { color: 'purple'});
+          if (HasAnimationStarted) {
+           //Do Nothing
+          } else {
+            el.setAttribute('color', "purple");
+            el.setAttribute('light', { color: 'purple'});
+          }
+
         });
-  
         el.addEventListener('mouseleave', function () {
-          el.setAttribute('color', defaultColor);
-          el.setAttribute('light', { color: defaultLightColor});
+          if (HasAnimationStarted) {
+           //Do Nothing
+          } else {
+            el.setAttribute('color', defaultColor);
+            el.setAttribute('light', { color: defaultLightColor});
+          }
+
         });
+
+        el.addEventListener('click', function () {
+            HasAnimationStarted = true;
+            setTimeout(
+                function() {
+                  window.location.href = "VideoRoom.html";
+                }, 1300);
+          });
       }
     });
   </script>
+
+<script>
+  AFRAME.registerComponent('twirrl-on', {
+    schema: {
+    },
+
+    init: function () {
+      var SceneRef = document.querySelector('a-scene');
+      var CameraRef = SceneRef.querySelector('#camera')
+      var element = this.el;  // <a-box>
+      //var CameraRotation = CameraRef.getAttribute('rotation');
+      //CameraRef.setAttribute('rotation', {x: CameraRotation.X+1, y: CameraRotation.Y, z: CameraRotation.Z});
+      
+
+      element.addEventListener('click', function () {
+        console.log(CameraRef);
+        
+        element.setAttribute('scale', {x: 3, y: 3, z: 3});
+        //CameraRef.object3D.rotation.x = THREE.Math.degToRad(45);
+      });
+    }
+  });
+</script>
 </html>
