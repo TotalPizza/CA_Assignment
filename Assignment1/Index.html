@@ -5,8 +5,12 @@
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse" physics="debug: true; gravity: 0;">
+    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse" physics="debug: false; gravity: 0;">
       <a-assets>
+        <!--Kitchen Images-->
+        <img id="Kitchen1" src="KuechePic1.jpg">
+        <img id="Kitchen2" src="KuechePic2.jpg">
+        <img id="Kitchen3" src="KuechePic3.jpg">
         <!--Space Images-->
         <img id="yoda" src="babyyoda.jpg">
         <img id="Obi1" src="Obi1.jpg">
@@ -38,6 +42,9 @@
         <a-boxstatic-body position="0 2 -1"></a-boxstatic-body>
       </a-entity>
       <!-- Pictures on Walls -->
+      <a-plane src="#Kitchen1" height="4" width="4" rotation="0 -90 0" position="4.2 2 30"></a-plane>
+      <a-plane src="#Kitchen2" height="4" width="6" rotation="0 90 0" position="-4 2 30"></a-plane>
+      <a-plane src="#Kitchen3" height="4" width="4" rotation="0 90 0" position="-4 2 20"></a-plane>
       <a-plane src="#yoda" height="4" width="4" rotation="0 -90 0" position="4.2 2 -60"></a-plane>
       <a-plane src="#Obi1" height="4" width="6" rotation="0 90 0" position="-4 2 -60"></a-plane>
       <a-plane src="#flower1" height="4" width="4" rotation="0 180 0" position="-30 2 -11"></a-plane>
@@ -53,6 +60,8 @@
       </a-sphere>
       <!-- Portals-->
       <a-link href="Space.html" class="clickable" title="Off to Space" image="#SpaceImage" rotation = "0 0 0" position="0 2 -70" sound="src: #starwars; autoplay: true; rolloffFactor: 1; refDistance: 0.3 "></a-link>  
+      <a-link href="balkon.html" class="clickable" title="Off to the Balcony" image="#balcony" rotation = "0 90 0" position="-50 2 -15"></a-link>  
+      <a-link href="kueche.html" class="clickable" title="Off to the Kitchen" image="#Kitchen1" rotation = "0 0 0" position="0 2 40"></a-link>  
       <!-- Lobby models -->
       <a-obj-model src="#LobbyBuilding-obj" mtl="#LobbyBuilding-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
       <a-obj-model src="#Altar-obj" mtl="#Altar-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
