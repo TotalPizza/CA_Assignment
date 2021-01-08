@@ -1,31 +1,134 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
   <body>
-    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse">
+    <a-scene raycaster="far: 5; objects: .clickable;" cursor="rayOrigin: mouse" physics="debug: true; gravity: 0;">
       <a-assets>
-        <audio id="dragons" src="ImagineDragons.mp3" preload="auto"></audio>
+        <!--Babyyoda Image-->
+        <img id="yoda" src="babyyoda.jpg">
+         <!--Obi1 Image-->
+         <img id="Obi1" src="Obi1.jpg">
+        <!--Space room portal sound-->
+        <audio id="starwars" src="StarWars.mp3" preload="auto"></audio>
         <!--SphereImage-->
         <img id="SpaceImage" src="space.jpg">
-        <!--Center Lobby Object-->
-        <a-asset-item id="MainLoby-obj" src="MainLoby.obj"></a-asset-item>
-        <a-asset-item id="MainLoby-mtl" src="MainLoby.mtl"></a-asset-item>
+        <!--Lobby Objects-->
+        <!--Das war uhrsprünglich mal ein object, aber da wird dann eine große collision box benutzt
+        somit mussten die aufgeteilt werden. beim veschiebern eines objectes ist die collision box im Uhrsprung verblieben
+        deshalb haben wir die direkt in der richtigen position modelliert und dann hier gespawned-->
+        <a-asset-item id="LobbyAltar-obj" src="LobbyAltar.obj"></a-asset-item>
+        <a-asset-item id="LobbyAltar-mtl" src="LobbyAltar.mtl"></a-asset-item>
+        <a-asset-item id="LobbyFloor-obj" src="LobbyFloor.obj"></a-asset-item>
+        <a-asset-item id="LobbyFloor-mtl" src="LobbyFloor.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall-obj" src="LobbyWall.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall-mtl" src="LobbyWall.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall2-obj" src="LobbyWall2.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall2-mtl" src="LobbyWall2.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall3-obj" src="LobbyWall3.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall3-mtl" src="LobbyWall3.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall4-obj" src="LobbyWall4.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall4-mtl" src="LobbyWall4.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall5-obj" src="LobbyWall5.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall5-mtl" src="LobbyWall5.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall6-obj" src="LobbyWall6.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall6-mtl" src="LobbyWall6.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall7-obj" src="LobbyWall7.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall7-mtl" src="LobbyWall7.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall8-obj" src="LobbyWall8.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall8-mtl" src="LobbyWall8.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall9-obj" src="LobbyWall9.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall9-mtl" src="LobbyWall9.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall10-obj" src="LobbyWall10.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall10-mtl" src="LobbyWall10.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall11-obj" src="LobbyWall11.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall11-mtl" src="LobbyWall11.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall12-obj" src="LobbyWall12.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall12-mtl" src="LobbyWall12.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall13-obj" src="LobbyWall13.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall13-mtl" src="LobbyWall13.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall14-obj" src="LobbyWall14.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall14-mtl" src="LobbyWall14.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall15-obj" src="LobbyWall15.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall15-mtl" src="LobbyWall15.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall16-obj" src="LobbyWall16.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall16-mtl" src="LobbyWall16.mtl"></a-asset-item>
+        <a-asset-item id="LobbyWall17-obj" src="LobbyWall17.obj"></a-asset-item>
+        <a-asset-item id="LobbyWall17-mtl" src="LobbyWall17.mtl"></a-asset-item>
+        <a-asset-item id="LobbyPillar1-obj" src="LobbyPillar1.obj"></a-asset-item>
+        <a-asset-item id="LobbyPillar1-mtl" src="LobbyPillar1.mtl"></a-asset-item>
+        <a-asset-item id="LobbyPillar2-obj" src="LobbyPillar2.obj"></a-asset-item>
+        <a-asset-item id="LobbyPillar2-mtl" src="LobbyPillar2.mtl"></a-asset-item>
+        <a-asset-item id="LobbyPillar3-obj" src="LobbyPillar3.obj"></a-asset-item>
+        <a-asset-item id="LobbyPillar3-mtl" src="LobbyPillar3.mtl"></a-asset-item>
+        <a-asset-item id="LobbyPillar4-obj" src="LobbyPillar4.obj"></a-asset-item>
+        <a-asset-item id="LobbyPillar4-mtl" src="LobbyPillar4.mtl"></a-asset-item>
       </a-assets>
+
+      
       <!-- Camera Settings -->
-      <a-entity camera look-controls wasd-controls="acceleration:200" position = "0 2 0" ></a-entity>
+        <a-entity id="camera"
+                  camera 
+                  kinematic-body
+                  position="20 2 -10"
+                  rotation="0 0 0"
+                  look-controls wasd-controls="acceleration:200">
+        </a-entity>
+        <a-boxstatic-body position="0 2 -1"></a-boxstatic-body>
+      </a-entity>
+      <!-- Baby Yoda picture -->
+      <a-plane src="#yoda" height="4" width="4" rotation="0 -90 0" position="4.2 2 -60"></a-plane>
+      <!-- Obi1 picture -->
+      <a-plane src="#Obi1" height="4" width="6" rotation="0 90 0" position="-4 2 -60"></a-plane>
       <!-- Sphere to 360Video -->
-      <a-sphere link="href: VideoRoom.html;" class="clickable" id="light" radius="0.8" material="color: #dbd6c7;shader: flat " light="color: #dbd6c7; distance: 120; intensity: 2; type: point" position="0 1.8 -15" sound="src: #dragons; autoplay: true rolloffFactor: 20; refDistance: 0.3 " change-color-on-hover></a-sphere>
+      <a-sphere link="href: VideoRoom.html;" class="clickable" id="light" radius="0.8" material="color: #dbd6c7;shader: flat " light="color: #dbd6c7; distance: 120; intensity: 2; type: point" position="0 1.8 -15" change-color-on-hover></a-sphere>
       <!-- Portal to Space Room -->
-      <a-link href="Space.html" class="clickable" title="Off to Space" image="#SpaceImage" rotation = "0 90 0" position="-40 2 -15"></a-link>  
-      <!-- Building model -->
-      <a-obj-model src="#MainLoby-obj" mtl="#MainLoby-mtl" position="0 -10 -15" rotation="0 -90 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-link href="Space.html" class="clickable" title="Off to Space" image="#SpaceImage" rotation = "0 0 0" position="0 2 -70" sound="src: #starwars; autoplay: true; rolloffFactor: 1; refDistance: 0.3 "></a-link>  
+      
+      <!-- Lobby Room -->
+      <a-obj-model static-body src="#LobbyFloor-obj" mtl="#LobbyFloor-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>  
+      <a-obj-model src="#LobbyWall-obj" mtl="#LobbyWall-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall2-obj" mtl="#LobbyWall2-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall3-obj" mtl="#LobbyWall3-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall4-obj" mtl="#LobbyWall4-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall5-obj" mtl="#LobbyWall5-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall6-obj" mtl="#LobbyWall6-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall7-obj" mtl="#LobbyWall7-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall8-obj" mtl="#LobbyWall8-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall9-obj" mtl="#LobbyWall9-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall10-obj" mtl="#LobbyWall10-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall11-obj" mtl="#LobbyWall11-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall12-obj" mtl="#LobbyWall12-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall13-obj" mtl="#LobbyWall13-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall14-obj" mtl="#LobbyWall14-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model> 
+      <a-obj-model  src="#LobbyWall15-obj" mtl="#LobbyWall15-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall16-obj" mtl="#LobbyWall16-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyWall17-obj" mtl="#LobbyWall17-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model> 
+      <a-obj-model  src="#LobbyPillar1-obj" mtl="#LobbyPillar1-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model> 
+      <a-obj-model  src="#LobbyPillar2-obj" mtl="#LobbyPillar2-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyPillar3-obj" mtl="#LobbyPillar3-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
+      <a-obj-model  src="#LobbyPillar4-obj" mtl="#LobbyPillar4-mtl" position="0 -10 -15" rotation="0 0 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model> 
+      <a-obj-model  src="#LobbyAltar-obj" mtl="#LobbyAltar-mtl" position="0 -10 -15" rotation="0 -90 0" shadow="cast: true" Shadow=„receive: true“></a-obj-model>
 
+      <a-light type="ambient" color="#222"></a-light>
 
-      <!-- Using the asset management system. 
-      <a-videosphere src="#spacevideo"></a-videosphere>-->
-
+      <!-- Bounding Boxes -->
+    <a-plane static-body height="10" width="50" rotation="0 -90 0" position="-25 2 -15"></a-plane>
+    <a-plane static-body height="10" width="50" rotation="0 90 0" position="25 2 -15"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 180 0" position="-15 2 -41"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 180 0" position="15 2 -41"></a-plane>
+    <a-plane static-body height="10" width="37" rotation="0 -90 0" position="-5 2 -60"></a-plane>
+    <a-plane static-body height="10" width="37" rotation="0 90 0" position="5 2 -60"></a-plane>
+    <a-plane static-body height="10" width="37" rotation="0 -90 0" position="-5 2 30"></a-plane>
+    <a-plane static-body height="10" width="37" rotation="0 90 0" position="5 2 30"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 0 0" position="-15 2 11"></a-plane>
+    <a-plane static-body height="10" width="20" rotation="0 0 0" position="15 2 11"></a-plane>
     </a-scene>
+
+    
+
   </body>
   <script>
     AFRAME.registerComponent('change-color-on-hover', {
