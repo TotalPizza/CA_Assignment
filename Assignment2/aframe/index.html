@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-assets>
+            <a-asset-item id="kicker" src="tischkickerv4_3.glb"></a-asset-item>
+            <a-asset-item id="video" src="video.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- Camera Settings -->
+        <a-entity position="0 1 3">
+            <a-camera></a-camera>
+        </a-entity>
+        
+        <a-sky color="#FFFFFF"></a-sky>
+        <a-entity gltf-model="#kicker"></a-entity>
+        <!-- <a-entity gltf-model="#video"  position="4 -1.5 0" scale="0.9 0.9 0.9" rotation="0 -110 0"></a-entity> -->
+    </a-scene>
+</body>
+
+</html>
