@@ -9,16 +9,16 @@ library(ggplot2)
 library(ggdendro)
 library(dplyr)
 library(tibble)
+library(tidyverse)
 theme_set(theme_bw())
 theme_set(theme_classic())
 ```
-
 
 ##1. Balkendiagram: Fälle per Bundesland
 
 Loading the data
 ```{r}
-CovidData <- read.csv("C:\\Users\\Marlon\\Desktop\\Stuff\\Uni\\ComputerGraphik\\CA_Assignment\\Assignment3\\RKI_COVID19.csv", header = TRUE)
+CovidData <- read.csv("./RProject/RKI_COVID19.csv", header = TRUE)
 ```
 
 Erstellen eines neuen DataFrames (Selektieren Bundesländer und die Anzahl der Fälle)
@@ -52,15 +52,17 @@ ggplot(FallBundesland, aes(Bundesland, y=AnzahlFall)) +
 ##2. Histogram: Fälle per Altersgruppe
 Erstellen eines neuen DataFrames (Selektieren Altersgruppen und die Anzahl der Fälle)
 ```{r}
-FallAlter <- select(CovidData, AnzahlFall, AlterZahl, Bundesland)
+FallAlter <- select(CovidData, AnzahlFall, Altersgruppe, Bundesland)
 ```
-Fälle nach Bundesland aufsummieren
+Altersgruppe Säubern und Fälle nach Bundesland aufsummieren
 ```{r}
-FallAlter <- aggregate(FallAlter$AnzahlFall, list(AlterZahl = FallAlter$AlterZahl, Bundesland = FallAlter$Bundesland), sum)
+FallAlter$Altersgruppe <- stringr::str_replace_all(NachBundesland$Altersgruppe, "[A]", "")
+FallAlter$Altersgruppe <- stringr::str_replace_all(NachBundesland$Altersgruppe, "[-]", "")
+FallAlter <- aggregate(FallAlter$AnzahlFall, list(Altersgruppe = FallAlter$Altersgruppe, Bundesland = FallAlter$Bundesland), sum)
 ```
 
 ```{r}
-ggplot(FallAlter, aes(x=AlterZahl, y=x)) + 
+ggplot(FallAlter, aes(x=Altersgruppe, y=x)) + 
   scale_fill_brewer(palette = "Set3") +
   geom_histogram(aes(fill=Bundesland), 
                    stat='identity',
