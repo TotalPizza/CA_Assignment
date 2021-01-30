@@ -9,6 +9,6 @@ dashboardPage(
   dashboardSidebar(),
 dashboardBody(
   tags$style(type = "text/css", "#map {height: calc(100vh - 80px) !important;}"),
-  leafletOutput("map",height = 1000)
+  leafletOutput("mymap",height = 1000)
   )
 )

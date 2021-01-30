@@ -56,8 +56,8 @@ FallAlter <- select(CovidData, AnzahlFall, Altersgruppe, Bundesland)
 ```
 Altersgruppe Säubern und Fälle nach Bundesland aufsummieren
 ```{r}
-FallAlter$Altersgruppe <- stringr::str_replace_all(NachBundesland$Altersgruppe, "[A]", "")
-FallAlter$Altersgruppe <- stringr::str_replace_all(NachBundesland$Altersgruppe, "[-]", "")
+FallAlter$Altersgruppe <- stringr::str_replace_all(FallAlter$Altersgruppe, "[A]", "")
+FallAlter$Altersgruppe <- stringr::str_replace_all(FallAlter$Altersgruppe, "[-]", "")
 FallAlter <- aggregate(FallAlter$AnzahlFall, list(Altersgruppe = FallAlter$Altersgruppe, Bundesland = FallAlter$Bundesland), sum)
 ```
 

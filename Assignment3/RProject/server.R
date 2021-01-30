@@ -7,12 +7,25 @@ library(sp)
 
 server <- function(input,output, session){
   
+  data <- reactive({
+    x <- BLData
+  })  
   
-  output$map <- renderLeaflet({
+  labels <- sprintf(
+    "<strong>%s</strong><br/>Total Cases: %g <br/>Total Deaths: %g",
+    BLData$Bundesland, BLData$AnzahlFall, BLData$AnzahlTodesfall) %>% 
+    lapply(htmltools::HTML)
+  
+  output$mymap <- renderLeaflet({
+    BLData <- data()
     
-    DEU1 <- raster::getData("GADM", country="DEU", level=1)
-    
-    m <-  leaflet(data = DEU1, options = leafletOptions(minZoom = 6.4, maxZoom = 9, width = NULL, height = 300)) %>%
-      addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
-  }) 
+    m <- leaflet(BLData) %>%
+    addPolygons(fillColor = topo.colors(10, alpha = NULL), 
+                stroke = FALSE,
+                label = labels,
+                labelOptions = labelOptions(
+                  style = list("font-weight" = "normal", padding = "3px 8px"),
+                  textsize = "15px",
+                  direction = "auto"))
+  })
 }
