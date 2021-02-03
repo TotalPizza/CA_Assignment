@@ -1,0 +1,138 @@
+---
+title: "Graphen und Summaries"
+output:
+  html_document: 
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(ggdendro)
+library(dplyr)
+library(tibble)
+library(tidyverse)
+theme_set(theme_bw())
+theme_set(theme_classic())
+```
+
+## DB Laden und Daten säubern
+
+### CSV Laden, Characterzeichen aus altersgruppe entfernen und "unbekannte" geschlechter entfernen
+```{r}
+CovidData <- read.csv("./RProject/RKI_COVID19.csv", header = TRUE)
+
+CovidData$Altersgruppe <- stringr::str_replace_all(CovidData$Altersgruppe, "[A]", "")
+CovidData<-CovidData[!(CovidData$Altersgruppe=="unbekannt"),]
+CovidData<-CovidData[!(CovidData$Geschlecht=="unbekannt"),]
+
+```
+### Daten genauer angucken
+```{r}
+summary(CovidData$AnzahlFall)
+```
+Negative fälle sollte es nicht geben, somit:
+```{r}
+CovidData<-CovidData[!(CovidData$AnzahlFall< 0),]
+summary(CovidData$AnzahlFall)
+```
+
+### 1. Balkendiagram: Fälle per Bundesland
+Erstellen eines neuen DataFrames (Selektieren Bundesländer und die Anzahl der Fälle)
+```{r}
+FallBundesland <- select(CovidData, AnzahlFall, Bundesland)
+```
+Fälle nach Bundesland aufsummieren
+```{r}
+FallBundesland <- aggregate(FallBundesland[, 1], list(FallBundesland$Bundesland), sum)
+```
+Header wieder richtig benennen
+```{r}
+colnames(FallBundesland) <- c("Bundesland", "AnzahlFall")
+```
+Sortieren
+```{r}
+FallBundesland <- FallBundesland[order(FallBundesland$AnzahlFall), ]
+```
+Wird gebraucht, damit die änderung auch im Graph angezeigt wird....nicht sicher warum
+```{r}
+FallBundesland$Bundesland <- factor(FallBundesland$Bundesland, levels = FallBundesland$Bundesland) 
+```
+Graph Erstellen/Anzeigen
+```{r}
+ggplot(FallBundesland, aes(Bundesland, y=AnzahlFall)) + 
+  geom_bar(stat="identity", width=.5, fill="tomato3") + 
+  labs(title="Anzahl Fälle per Bundesland") + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+```
+
+### 2. Histogram: Fälle per Altersgruppe
+Erstellen eines neuen DataFrames (Selektieren Altersgruppen und die Anzahl der Fälle)
+```{r}
+FallAlter <- select(CovidData, AnzahlFall, Altersgruppe, Bundesland)
+```
+Altersgruppe Säubern und Fälle nach Bundesland aufsummieren
+```{r}
+FallAlter <- aggregate(FallAlter$AnzahlFall, list(Altersgruppe = FallAlter$Altersgruppe, Bundesland = FallAlter$Bundesland), sum)
+```
+
+```{r}
+ggplot(FallAlter, aes(x=Altersgruppe, y=x)) + 
+  scale_fill_brewer(palette = "Set3") +
+  geom_histogram(aes(fill=Bundesland), 
+                   stat='identity',
+                   binwidth = .1, 
+                   col="black", 
+                   size=.1) + 
+  labs(title="Histogram", 
+       subtitle="AnzahlFall per Alter")
+```
+
+
+### 3. Torten Diagram: Fälleverteilung nach Geschlecht
+Erstellen eines neuen DataFrames (Selektieren der Geschlechter und die Anzahl der Fälle)
+```{r}
+FallGeschlecht <- select(CovidData, Geschlecht, AnzahlFall)
+```
+Fälle nach Geschlecht aufsummieren
+```{r}
+FallGeschlecht <- aggregate(FallGeschlecht$AnzahlFall, list(Geschlecht = FallGeschlecht$Geschlecht), sum)
+```
+```{r}
+ggplot(FallGeschlecht, aes(x="", y=x, fill=Geschlecht)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  theme_void()
+```
+
+### 4. Linien Diagram: Akkumulierte Anzahl Fälle
+Erstellen eines neuen DataFrames (Selektieren des gemeleldeten zeitpunktes und die Anzahl der Fälle)
+```{r}
+FallDatum <- select(CovidData, Meldedatum, AnzahlFall)
+```
+Fälle nach Tag aufsummieren
+```{r}
+FallDatum <- aggregate(FallDatum$AnzahlFall, list(Meldedatum = FallDatum$Meldedatum), sum)
+```
+Plot Erstellen
+```{r}
+ggplot(data=FallDatum, aes(x=Meldedatum, y=x, group=1)) +
+  geom_line()
+```
+
+### 5. Hirarchisches Dendogram: 
+Hierfür können wir das Gleiche Dataframe wie in Graph 1 nutzen:
+```{r}
+FallBundesland <- select(CovidData, AnzahlFall, Bundesland)
+```
+Anzahl Fälle nach Bundesland Aufsummieren
+```{r}
+FallBundesland <- aggregate(FallBundesland$AnzahlFall, list(Bundesland = FallBundesland$Bundesland), sum)
+```
+Bundesländer als Reihennamen nutzen, Distanz zwischen den Bundesläbndern berechnen und anschließend den Graph plotten
+```{r}
+FallBundesland <- column_to_rownames(FallBundesland, var = "Bundesland")
+hc <- hclust(dist(FallBundesland), "ave")
+ggdendrogram(hc, rotate = TRUE, size = 2)
+```
+
