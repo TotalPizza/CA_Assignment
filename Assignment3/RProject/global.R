@@ -7,16 +7,16 @@ BLData <- geojsonio::geojson_read("BLData.json", what = "sp")
 
 CovidData <- read.csv("./RKI_COVID19.csv", header = TRUE)
 
-#Faktoren Selectieren
-NachFallBundesland <- select(CovidData, Bundesland, AnzahlFall, AnzahlTodesfall, Meldedatum)
+CovidData<-CovidData[!(CovidData$AnzahlFall< 0),]
 
+
+#Faktoren Selectieren
+NachFallBundesland <- select(CovidData, Bundesland, AnzahlFall, AnzahlTodesfall)
 #Daten Reinigen
 #NachFallBundesland$Altersgruppe <- stringr::str_replace_all(NachBundesland$Altersgruppe, "[A]", "")
 #NachFallBundesland$Altersgruppe <- stringr::str_replace_all(NachBundesland$Altersgruppe, "[-]", "")
 #NachFallBundesland<-NachBundesland[!(NachBundesland$Altersgruppe=="unbekannt"),]
 #NachFallBundesland<-NachBundesland[!(NachBundesland$Geschlecht=="unbekannt"),]
-
-NachFallBundesland<- aggregate(list(AnzahlFall = NachFallBundesland$AnzahlFall), by = list(NachFallBundesland$Bundesland, NachFallBundesland$Meldedatum), sum)
 
 NachFallBundesland <- aggregate(. ~Bundesland, data=NachFallBundesland, sum, na.rm=TRUE)
 
